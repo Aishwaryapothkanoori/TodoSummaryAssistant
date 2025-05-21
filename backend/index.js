@@ -12,10 +12,10 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// Supabase client
+
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-// GET /todos - Fetch all todos
+
 app.get("/todos", async (req, res) => {
   const { data, error } = await supabase.from("todos").select("*");
   if (error) {
@@ -24,9 +24,9 @@ app.get("/todos", async (req, res) => {
   res.json(data);
 });
 
-// POST /todos - Add a new todo
+
 app.post("/todos", async (req, res) => {
-  const { text } = req.body; // <-- use text instead of title
+  const { text } = req.body; 
   if (!text) {
     return res.status(400).json({ error: "Text is required" });
   }
@@ -40,7 +40,7 @@ app.post("/todos", async (req, res) => {
 });
 
 
-// DELETE /todos/:id - Delete a todo
+
 app.delete("/todos/:id", async (req, res) => {
   const { id } = req.params;
   const { error } = await supabase.from("todos").delete().eq("id", id);
@@ -52,7 +52,7 @@ app.delete("/todos/:id", async (req, res) => {
   res.json({ message: `Todo with id ${id} deleted successfully` });
 });
 
-// POST /summarize - Send a summary message via Slack webhook
+
 app.post("/summarize", async (req, res) => {
   try {
     const { data: todos, error } = await supabase.from("todos").select("*");
@@ -64,7 +64,7 @@ app.post("/summarize", async (req, res) => {
       ? todos.map(todo => `• ${todo.text}`).join("\n")
       : "No todos found.";
 
-    // Temporarily bypass OpenAI call
+    
     const summaryText = todoListString;
 
     const webhookUrl = process.env.SLACK_WEBHOOK_URL;
@@ -75,7 +75,7 @@ app.post("/summarize", async (req, res) => {
     res.json({ message: "Summary sent successfully", summary: summaryText });
   } catch (error) {
   console.error("Error generating summary:", error);
-  res.status(500).json({ error: error.toString() }); // send real error to client
+  res.status(500).json({ error: error.toString() }); 
 }
 
 });

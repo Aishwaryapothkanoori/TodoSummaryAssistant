@@ -13,7 +13,17 @@ const SummaryButton = ({ onSummaryComplete }) => {
   };
 
   return (
-    <button
+    <button style={{
+       backgroundColor: 'rgba(33, 132, 231, 0.55)',      
+    color: 'rgba(1, 13, 25, 0.88)',                 
+    border: 'rgba(11, 55, 216, 0.98)',    
+    padding: '0.75rem',
+    width: '40%',
+    borderRadius: '8px',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    
+    }}
       onClick={handleSummarize}
       className="bg-green-600 text-white px-4 py-2 rounded mt-4"
     >
